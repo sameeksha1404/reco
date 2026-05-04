@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SecuraForge | Threat Recommendation Engine</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&f[]=cabinet-grotesk@500,700,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#selection-view">Skip to content</a>
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="toast-container" id="toast-container"></div>
+
+    <nav class="top-nav">
+      <div class="nav-container">
+        <div class="brand-wrap">
+          <div class="logo-mark"><i class="fa-solid fa-shield-halved"></i></div>
+          <div>
+            <div class="logo-text">SecuraForge</div>
+            <div class="logo-caption">Risk-aware control recommender</div>
+          </div>
+        </div>
+
+        <div class="nav-links" aria-label="Primary navigation">
+          <a href="#" class="nav-link active" data-tab="analysis"><i class="fa-solid fa-chart-simple"></i> Threat Analysis</a>
+          <a href="#" class="nav-link" data-tab="coverage"><i class="fa-solid fa-diagram-project"></i> Control Coverage</a>
+        </div>
+
+        <div class="nav-right">
+          <div class="search-global">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search threats..." id="global-search" />
+          </div>
+          <button class="theme-toggle" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="app-shell">
+      <header class="hero-card">
+        <div class="hero-copy">
+          <span class="eyebrow"><i class="fa-solid fa-bolt"></i> Cyber Risk Workspace</span>
+          <h1>Threat Recommendation Engine</h1>
+          <p>Select one or more threats, review the top recommended controls, and calculate the final residual risk score.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="#selection-view"><i class="fa-solid fa-crosshairs"></i> Start Selection</a>
+            <a class="btn btn-secondary btn-lg" href="#tab-coverage"><i class="fa-solid fa-layer-group"></i> View Coverage</a>
+          </div>
+        </div>
+
+        <div class="metric-grid">
+          <div class="metric-card">
+            <span class="metric-icon cyan"><i class="fa-solid fa-triangle-exclamation"></i></span>
+            <span class="stat-value" id="threat-count">0</span>
+            <span class="stat-label">Threats Loaded</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-icon violet"><i class="fa-solid fa-lock"></i></span>
+            <span class="stat-value" id="control-count">80+</span>
+            <span class="stat-label">Security Controls</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-icon green"><i class="fa-solid fa-chart-pie"></i></span>
+            <span class="stat-value accent">Live</span>
+            <span class="stat-label">Risk Scoring</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="status-bar">
+        <div class="status-left">
+          <span class="org-badge"><i class="fa-solid fa-building-shield"></i> Security Operations</span>
+          <span class="last-updated">Backend: <strong>http://127.0.0.1:8000</strong></span>
+        </div>
+        <div class="risk-pill low"><i class="fas fa-shield-alt"></i> Workflow Ready</div>
+      </div>
+
+      <div id="tab-analysis">
+        <section id="selection-view" class="panel card-panel">
+          <div class="section-header modern-header">
+            <div>
+              <span class="step-badge">Phase 01</span>
+              <h2>Select Threats</h2>
+              <p>Threats are grouped category-wise. Use search, filters, and bulk selection to keep the page uncluttered.</p>
+            </div>
+            <button id="start-btn" class="btn btn-primary btn-lg"><i class="fas fa-play"></i> Begin Analysis</button>
+          </div>
+
+          <div class="search-filter-section">
+            <div class="search-wrapper">
+              <i class="fas fa-search search-icon"></i>
+              <input type="text" id="threat-search" class="search-input" placeholder="Search by threat name or category..." />
+              <button class="clear-search-btn" id="clear-search" aria-label="Clear search">✕</button>
+            </div>
+
+            <div class="filter-row">
+              <div class="filter-group">
+                <label for="category-filter">Category</label>
+                <select id="category-filter" class="select-input"><option value="">All Categories</option></select>
+              </div>
+              <div class="filter-group">
+                <label for="sort-select">Sort</label>
+                <select id="sort-select" class="select-input">
+                  <option value="priority-desc">Priority • High to Low</option>
+                  <option value="priority-asc">Priority • Low to High</option>
+                  <option value="name-asc">Name A-Z</option>
+                  <option value="name-desc">Name Z-A</option>
+                </select>
+              </div>
+              <button class="btn btn-secondary" id="reset-filters"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+              <div class="selection-stats">
+                <span id="threat-selected-count">0 selected</span>
+                <span id="threat-total-count">of 0 threats</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="threat-list" class="threat-list-container"></div>
+        </section>
+
+        <section id="analysis-view" class="panel card-panel hidden">
+          <div class="analysis-header">
+            <div class="progress-tracker">
+              <span class="step-badge">Phase 02</span>
+              <h2 id="step-label">Analyzing Threat</h2>
+            </div>
+            <div class="threat-progress">
+              <span id="progress-text" class="progress-text">Control selection progress</span>
+              <div class="progress-bar-container"><div id="progress-fill" class="progress-bar-fill"></div></div>
+            </div>
+          </div>
+
+          <div class="analysis-container">
+            <aside class="threat-sidebar">
+              <div class="threat-card-sticky">
+                <div id="active-priority" class="priority-pill"></div>
+                <h3 id="active-threat-name" class="active-threat-title"></h3>
+                <div class="meta-grid">
+                  <div class="meta-item"><span class="meta-label">Category</span><span id="active-category-badge" class="meta-value"></span></div>
+                  <div class="meta-item"><span class="meta-label">Weight</span><span id="active-weight-badge" class="meta-value"></span></div>
+                </div>
+                <div class="hint-box"><i class="fas fa-lightbulb"></i><p>Select one recommended control for this threat.</p></div>
+              </div>
+            </aside>
+
+            <div class="control-selection-area">
+              <div class="controls-header"><h3>Recommended Controls</h3><span id="control-count-badge" class="count-pill">Top 3</span></div>
+              <div id="control-list" class="control-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="result-view" class="panel card-panel hidden">
+          <div class="result-hero">
+            <div class="result-score-circle"><div class="score-inner"><span class="score-label">Risk Score</span><strong id="risk-score" class="big-score">0.00</strong></div></div>
+            <div class="result-meta"><div class="risk-level-badge" id="risk-level">LOW</div><div class="response-priority" id="response-priority">Routine Monitoring</div></div>
+          </div>
+          <div class="result-summary"><h3>Analysis Summary</h3><div id="analysis-summary" class="summary-content"></div></div>
+          <div class="result-actions">
+            <button id="restart-btn" class="btn btn-primary btn-lg"><i class="fas fa-redo"></i> New Analysis</button>
+            <button id="export-btn" class="btn btn-secondary btn-lg"><i class="fas fa-download"></i> Export Report</button>
+          </div>
+        </section>
+      </div>
+
+      <div id="tab-coverage" class="hidden">
+        <section class="panel card-panel">
+          <div class="section-header modern-header">
+            <div>
+              <span class="step-badge">Explorer</span>
+              <h2>Control Coverage Analysis</h2>
+              <p>Visualize how selected controls reduce exposure across threat categories.</p>
+            </div>
+          </div>
+          <div id="control-selector-grid" class="control-selector-grid"></div>
+          <div id="coverage-detail" class="coverage-detail hidden"></div>
+        </section>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

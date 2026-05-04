@@ -1,0 +1,301 @@
+threat_id,threat_name,category,weight
+1,SYN Flood Attack in Cloud Environment,Network,0.68
+2,SYN Flood Attack on Mobile Device,Network,0.12
+3,SYN Flood Attack in Enterprise Network,Network,0.35
+4,SYN Flood Attack via Public WiFi,Network,0.3
+5,SYN Flood Attack in Web Application,Network,0.76
+6,SYN Flood Attack on API Endpoint,Network,0.71
+7,UDP Flood Attack in Cloud Environment,Network,0.9
+8,UDP Flood Attack on Mobile Device,Network,0.18
+9,UDP Flood Attack in Enterprise Network,Network,0.48
+10,UDP Flood Attack via Public WiFi,Network,0.13
+11,UDP Flood Attack in Web Application,Network,0.3
+12,UDP Flood Attack on API Endpoint,Network,0.55
+13,DNS Amplification Attack in Cloud Environment,Network,0.12
+14,DNS Amplification Attack on Mobile Device,Network,0.28
+15,DNS Amplification Attack in Enterprise Network,Network,0.68
+16,DNS Amplification Attack via Public WiFi,Network,0.59
+17,DNS Amplification Attack in Web Application,Network,0.3
+18,DNS Amplification Attack on API Endpoint,Network,0.63
+19,Man-in-the-Middle Attack in Cloud Environment,Network,0.83
+20,Man-in-the-Middle Attack on Mobile Device,Network,0.11
+21,Man-in-the-Middle Attack in Enterprise Network,Network,0.83
+22,Man-in-the-Middle Attack via Public WiFi,Network,0.73
+23,Man-in-the-Middle Attack in Web Application,Network,0.41
+24,Man-in-the-Middle Attack on API Endpoint,Network,0.24
+25,ARP Spoofing Attack in Cloud Environment,Network,0.96
+26,ARP Spoofing Attack on Mobile Device,Network,0.4
+27,ARP Spoofing Attack in Enterprise Network,Network,0.18
+28,ARP Spoofing Attack via Public WiFi,Network,0.19
+29,ARP Spoofing Attack in Web Application,Network,0.86
+30,ARP Spoofing Attack on API Endpoint,Network,0.64
+31,Packet Sniffing Attack in Cloud Environment,Network,0.83
+32,Packet Sniffing Attack on Mobile Device,Network,0.76
+33,Packet Sniffing Attack in Enterprise Network,Network,0.58
+34,Packet Sniffing Attack via Public WiFi,Network,0.98
+35,Packet Sniffing Attack in Web Application,Network,0.44
+36,Packet Sniffing Attack on API Endpoint,Network,0.6
+37,BGP Hijacking Attack in Cloud Environment,Network,0.85
+38,BGP Hijacking Attack on Mobile Device,Network,0.66
+39,BGP Hijacking Attack in Enterprise Network,Network,0.88
+40,BGP Hijacking Attack via Public WiFi,Network,0.62
+41,BGP Hijacking Attack in Web Application,Network,0.73
+42,BGP Hijacking Attack on API Endpoint,Network,0.14
+43,Rogue DHCP Attack in Cloud Environment,Network,0.31
+44,Rogue DHCP Attack on Mobile Device,Network,0.36
+45,Rogue DHCP Attack in Enterprise Network,Network,0.17
+46,Rogue DHCP Attack via Public WiFi,Network,0.31
+47,Rogue DHCP Attack in Web Application,Network,0.19
+48,Rogue DHCP Attack on API Endpoint,Network,0.35
+49,ICMP Flood Attack in Cloud Environment,Network,0.67
+50,ICMP Flood Attack on Mobile Device,Network,0.43
+51,ICMP Flood Attack in Enterprise Network,Network,0.43
+52,ICMP Flood Attack via Public WiFi,Network,0.29
+53,ICMP Flood Attack in Web Application,Network,0.34
+54,ICMP Flood Attack on API Endpoint,Network,0.94
+55,Port Scanning Attack in Cloud Environment,Network,0.68
+56,Port Scanning Attack on Mobile Device,Network,0.65
+57,Port Scanning Attack in Enterprise Network,Network,0.25
+58,Port Scanning Attack via Public WiFi,Network,0.76
+59,Port Scanning Attack in Web Application,Network,0.25
+60,Port Scanning Attack on API Endpoint,Network,0.44
+61,SQL Injection in Cloud Environment,Application,0.99
+62,SQL Injection on Mobile Device,Application,0.68
+63,SQL Injection in Enterprise Network,Application,0.6
+64,SQL Injection via Public WiFi,Application,0.72
+65,SQL Injection in Web Application,Application,0.86
+66,SQL Injection on API Endpoint,Application,0.8
+67,Cross-Site Scripting in Cloud Environment,Application,0.31
+68,Cross-Site Scripting on Mobile Device,Application,0.13
+69,Cross-Site Scripting in Enterprise Network,Application,0.38
+70,Cross-Site Scripting via Public WiFi,Application,0.34
+71,Cross-Site Scripting in Web Application,Application,0.29
+72,Cross-Site Scripting on API Endpoint,Application,0.95
+73,Remote Code Execution in Cloud Environment,Application,0.89
+74,Remote Code Execution on Mobile Device,Application,0.38
+75,Remote Code Execution in Enterprise Network,Application,0.69
+76,Remote Code Execution via Public WiFi,Application,0.46
+77,Remote Code Execution in Web Application,Application,0.92
+78,Remote Code Execution on API Endpoint,Application,0.51
+79,API Abuse in Cloud Environment,Application,0.34
+80,API Abuse on Mobile Device,Application,0.32
+81,API Abuse in Enterprise Network,Application,0.61
+82,API Abuse via Public WiFi,Application,0.34
+83,API Abuse in Web Application,Application,0.63
+84,API Abuse on API Endpoint,Application,0.91
+85,Directory Traversal in Cloud Environment,Application,0.46
+86,Directory Traversal on Mobile Device,Application,0.3
+87,Directory Traversal in Enterprise Network,Application,1.0
+88,Directory Traversal via Public WiFi,Application,0.56
+89,Directory Traversal in Web Application,Application,0.18
+90,Directory Traversal on API Endpoint,Application,0.14
+91,Command Injection in Cloud Environment,Application,0.2
+92,Command Injection on Mobile Device,Application,0.66
+93,Command Injection in Enterprise Network,Application,0.81
+94,Command Injection via Public WiFi,Application,0.48
+95,Command Injection in Web Application,Application,0.16
+96,Command Injection on API Endpoint,Application,0.44
+97,Server-Side Request Forgery in Cloud Environment,Application,1.0
+98,Server-Side Request Forgery on Mobile Device,Application,0.58
+99,Server-Side Request Forgery in Enterprise Network,Application,0.97
+100,Server-Side Request Forgery via Public WiFi,Application,0.87
+101,Server-Side Request Forgery in Web Application,Application,0.11
+102,Server-Side Request Forgery on API Endpoint,Application,0.75
+103,Cross-Site Request Forgery in Cloud Environment,Application,0.71
+104,Cross-Site Request Forgery on Mobile Device,Application,0.58
+105,Cross-Site Request Forgery in Enterprise Network,Application,0.34
+106,Cross-Site Request Forgery via Public WiFi,Application,0.68
+107,Cross-Site Request Forgery in Web Application,Application,0.2
+108,Cross-Site Request Forgery on API Endpoint,Application,0.49
+109,Insecure Deserialization in Cloud Environment,Application,0.51
+110,Insecure Deserialization on Mobile Device,Application,0.96
+111,Insecure Deserialization in Enterprise Network,Application,0.89
+112,Insecure Deserialization via Public WiFi,Application,0.34
+113,Insecure Deserialization in Web Application,Application,0.55
+114,Insecure Deserialization on API Endpoint,Application,0.26
+115,Broken Authentication Exploit in Cloud Environment,Application,0.92
+116,Broken Authentication Exploit on Mobile Device,Application,0.88
+117,Broken Authentication Exploit in Enterprise Network,Application,0.37
+118,Broken Authentication Exploit via Public WiFi,Application,0.68
+119,Broken Authentication Exploit in Web Application,Application,0.65
+120,Broken Authentication Exploit on API Endpoint,Application,0.24
+121,Credential Stuffing in Cloud Environment,Authentication,0.79
+122,Credential Stuffing on Mobile Device,Authentication,0.59
+123,Credential Stuffing in Enterprise Network,Authentication,0.8
+124,Credential Stuffing via Public WiFi,Authentication,0.58
+125,Credential Stuffing in Web Application,Authentication,0.1
+126,Credential Stuffing on API Endpoint,Authentication,0.39
+127,Brute Force Attack in Cloud Environment,Authentication,0.12
+128,Brute Force Attack on Mobile Device,Authentication,0.94
+129,Brute Force Attack in Enterprise Network,Authentication,0.89
+130,Brute Force Attack via Public WiFi,Authentication,0.85
+131,Brute Force Attack in Web Application,Authentication,0.38
+132,Brute Force Attack on API Endpoint,Authentication,0.15
+133,Password Spraying in Cloud Environment,Authentication,0.89
+134,Password Spraying on Mobile Device,Authentication,0.95
+135,Password Spraying in Enterprise Network,Authentication,0.18
+136,Password Spraying via Public WiFi,Authentication,0.54
+137,Password Spraying in Web Application,Authentication,0.16
+138,Password Spraying on API Endpoint,Authentication,0.78
+139,Session Hijacking in Cloud Environment,Authentication,0.79
+140,Session Hijacking on Mobile Device,Authentication,0.22
+141,Session Hijacking in Enterprise Network,Authentication,0.53
+142,Session Hijacking via Public WiFi,Authentication,0.59
+143,Session Hijacking in Web Application,Authentication,0.34
+144,Session Hijacking on API Endpoint,Authentication,0.89
+145,Phishing Credential Theft in Cloud Environment,Authentication,0.48
+146,Phishing Credential Theft on Mobile Device,Authentication,0.29
+147,Phishing Credential Theft in Enterprise Network,Authentication,0.59
+148,Phishing Credential Theft via Public WiFi,Authentication,0.76
+149,Phishing Credential Theft in Web Application,Authentication,0.28
+150,Phishing Credential Theft on API Endpoint,Authentication,0.38
+151,OAuth Token Theft in Cloud Environment,Authentication,1.0
+152,OAuth Token Theft on Mobile Device,Authentication,0.68
+153,OAuth Token Theft in Enterprise Network,Authentication,0.49
+154,OAuth Token Theft via Public WiFi,Authentication,0.57
+155,OAuth Token Theft in Web Application,Authentication,0.21
+156,OAuth Token Theft on API Endpoint,Authentication,0.3
+157,Privilege Escalation in Cloud Environment,Authentication,0.4
+158,Privilege Escalation on Mobile Device,Authentication,0.63
+159,Privilege Escalation in Enterprise Network,Authentication,0.31
+160,Privilege Escalation via Public WiFi,Authentication,0.3
+161,Privilege Escalation in Web Application,Authentication,0.16
+162,Privilege Escalation on API Endpoint,Authentication,0.67
+163,Account Takeover in Cloud Environment,Authentication,0.31
+164,Account Takeover on Mobile Device,Authentication,0.91
+165,Account Takeover in Enterprise Network,Authentication,0.87
+166,Account Takeover via Public WiFi,Authentication,0.16
+167,Account Takeover in Web Application,Authentication,0.31
+168,Account Takeover on API Endpoint,Authentication,0.7
+169,MFA Bypass in Cloud Environment,Authentication,0.29
+170,MFA Bypass on Mobile Device,Authentication,0.22
+171,MFA Bypass in Enterprise Network,Authentication,0.94
+172,MFA Bypass via Public WiFi,Authentication,0.61
+173,MFA Bypass in Web Application,Authentication,0.53
+174,MFA Bypass on API Endpoint,Authentication,0.81
+175,Replay Attack in Cloud Environment,Authentication,0.83
+176,Replay Attack on Mobile Device,Authentication,0.27
+177,Replay Attack in Enterprise Network,Authentication,0.19
+178,Replay Attack via Public WiFi,Authentication,0.49
+179,Replay Attack in Web Application,Authentication,0.48
+180,Replay Attack on API Endpoint,Authentication,0.52
+181,Data Breach in Cloud Environment,Data,0.76
+182,Data Breach on Mobile Device,Data,0.71
+183,Data Breach in Enterprise Network,Data,0.99
+184,Data Breach via Public WiFi,Data,0.19
+185,Data Breach in Web Application,Data,0.46
+186,Data Breach on API Endpoint,Data,0.41
+187,Data Leakage in Cloud Environment,Data,0.88
+188,Data Leakage on Mobile Device,Data,0.32
+189,Data Leakage in Enterprise Network,Data,0.27
+190,Data Leakage via Public WiFi,Data,0.5
+191,Data Leakage in Web Application,Data,0.48
+192,Data Leakage on API Endpoint,Data,0.35
+193,Ransomware Encryption in Cloud Environment,Data,0.32
+194,Ransomware Encryption on Mobile Device,Data,0.93
+195,Ransomware Encryption in Enterprise Network,Data,0.5
+196,Ransomware Encryption via Public WiFi,Data,0.88
+197,Ransomware Encryption in Web Application,Data,0.6
+198,Ransomware Encryption on API Endpoint,Data,0.15
+199,Data Exfiltration in Cloud Environment,Data,1.0
+200,Data Exfiltration on Mobile Device,Data,0.85
+201,Data Exfiltration in Enterprise Network,Data,0.97
+202,Data Exfiltration via Public WiFi,Data,0.93
+203,Data Exfiltration in Web Application,Data,0.86
+204,Data Exfiltration on API Endpoint,Data,0.25
+205,Insider Data Theft in Cloud Environment,Data,0.54
+206,Insider Data Theft on Mobile Device,Data,0.29
+207,Insider Data Theft in Enterprise Network,Data,0.46
+208,Insider Data Theft via Public WiFi,Data,0.15
+209,Insider Data Theft in Web Application,Data,0.44
+210,Insider Data Theft on API Endpoint,Data,0.99
+211,Cloud Misconfiguration Leak in Cloud Environment,Data,0.34
+212,Cloud Misconfiguration Leak on Mobile Device,Data,0.81
+213,Cloud Misconfiguration Leak in Enterprise Network,Data,0.51
+214,Cloud Misconfiguration Leak via Public WiFi,Data,0.48
+215,Cloud Misconfiguration Leak in Web Application,Data,0.96
+216,Cloud Misconfiguration Leak on API Endpoint,Data,1.0
+217,Backup Exposure in Cloud Environment,Data,0.6
+218,Backup Exposure on Mobile Device,Data,0.75
+219,Backup Exposure in Enterprise Network,Data,0.24
+220,Backup Exposure via Public WiFi,Data,0.37
+221,Backup Exposure in Web Application,Data,0.97
+222,Backup Exposure on API Endpoint,Data,0.62
+223,PII Exposure in Cloud Environment,Data,0.59
+224,PII Exposure on Mobile Device,Data,0.77
+225,PII Exposure in Enterprise Network,Data,0.15
+226,PII Exposure via Public WiFi,Data,0.63
+227,PII Exposure in Web Application,Data,0.55
+228,PII Exposure on API Endpoint,Data,0.87
+229,Unauthorized Data Access in Cloud Environment,Data,0.24
+230,Unauthorized Data Access on Mobile Device,Data,0.96
+231,Unauthorized Data Access in Enterprise Network,Data,0.17
+232,Unauthorized Data Access via Public WiFi,Data,0.27
+233,Unauthorized Data Access in Web Application,Data,0.64
+234,Unauthorized Data Access on API Endpoint,Data,0.71
+235,Encryption Key Leakage in Cloud Environment,Data,0.31
+236,Encryption Key Leakage on Mobile Device,Data,0.21
+237,Encryption Key Leakage in Enterprise Network,Data,0.9
+238,Encryption Key Leakage via Public WiFi,Data,0.32
+239,Encryption Key Leakage in Web Application,Data,0.64
+240,Encryption Key Leakage on API Endpoint,Data,0.66
+241,Malware Infection in Cloud Environment,Endpoint,0.48
+242,Malware Infection on Mobile Device,Endpoint,0.63
+243,Malware Infection in Enterprise Network,Endpoint,0.57
+244,Malware Infection via Public WiFi,Endpoint,0.94
+245,Malware Infection in Web Application,Endpoint,0.28
+246,Malware Infection on API Endpoint,Endpoint,0.74
+247,Trojan Attack in Cloud Environment,Endpoint,0.31
+248,Trojan Attack on Mobile Device,Endpoint,0.46
+249,Trojan Attack in Enterprise Network,Endpoint,0.7
+250,Trojan Attack via Public WiFi,Endpoint,0.37
+251,Trojan Attack in Web Application,Endpoint,0.38
+252,Trojan Attack on API Endpoint,Endpoint,0.78
+253,Spyware Installation in Cloud Environment,Endpoint,0.17
+254,Spyware Installation on Mobile Device,Endpoint,0.51
+255,Spyware Installation in Enterprise Network,Endpoint,1.0
+256,Spyware Installation via Public WiFi,Endpoint,1.0
+257,Spyware Installation in Web Application,Endpoint,0.17
+258,Spyware Installation on API Endpoint,Endpoint,0.29
+259,Zero-Day Exploit in Cloud Environment,Endpoint,0.34
+260,Zero-Day Exploit on Mobile Device,Endpoint,0.94
+261,Zero-Day Exploit in Enterprise Network,Endpoint,0.89
+262,Zero-Day Exploit via Public WiFi,Endpoint,0.89
+263,Zero-Day Exploit in Web Application,Endpoint,0.43
+264,Zero-Day Exploit on API Endpoint,Endpoint,0.24
+265,USB Malware Attack in Cloud Environment,Endpoint,0.85
+266,USB Malware Attack on Mobile Device,Endpoint,0.73
+267,USB Malware Attack in Enterprise Network,Endpoint,0.65
+268,USB Malware Attack via Public WiFi,Endpoint,0.99
+269,USB Malware Attack in Web Application,Endpoint,0.69
+270,USB Malware Attack on API Endpoint,Endpoint,0.11
+271,Drive-by Download in Cloud Environment,Endpoint,0.84
+272,Drive-by Download on Mobile Device,Endpoint,0.37
+273,Drive-by Download in Enterprise Network,Endpoint,0.7
+274,Drive-by Download via Public WiFi,Endpoint,0.95
+275,Drive-by Download in Web Application,Endpoint,0.22
+276,Drive-by Download on API Endpoint,Endpoint,0.2
+277,Rootkit Installation in Cloud Environment,Endpoint,0.2
+278,Rootkit Installation on Mobile Device,Endpoint,0.6
+279,Rootkit Installation in Enterprise Network,Endpoint,0.35
+280,Rootkit Installation via Public WiFi,Endpoint,0.64
+281,Rootkit Installation in Web Application,Endpoint,0.75
+282,Rootkit Installation on API Endpoint,Endpoint,0.28
+283,Keylogger Attack in Cloud Environment,Endpoint,0.67
+284,Keylogger Attack on Mobile Device,Endpoint,0.34
+285,Keylogger Attack in Enterprise Network,Endpoint,0.54
+286,Keylogger Attack via Public WiFi,Endpoint,0.91
+287,Keylogger Attack in Web Application,Endpoint,0.86
+288,Keylogger Attack on API Endpoint,Endpoint,0.18
+289,Botnet Infection in Cloud Environment,Endpoint,0.48
+290,Botnet Infection on Mobile Device,Endpoint,0.35
+291,Botnet Infection in Enterprise Network,Endpoint,0.1
+292,Botnet Infection via Public WiFi,Endpoint,0.79
+293,Botnet Infection in Web Application,Endpoint,0.67
+294,Botnet Infection on API Endpoint,Endpoint,0.34
+295,Fileless Malware in Cloud Environment,Endpoint,0.77
+296,Fileless Malware on Mobile Device,Endpoint,0.6
+297,Fileless Malware in Enterprise Network,Endpoint,0.48
+298,Fileless Malware via Public WiFi,Endpoint,0.11
+299,Fileless Malware in Web Application,Endpoint,0.17
+300,Fileless Malware on API Endpoint,Endpoint,0.89

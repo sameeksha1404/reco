@@ -1,0 +1,81 @@
+control_id,control_name,category
+1,Firewall,Network
+2,Intrusion Detection System,Network
+3,Intrusion Prevention System,Network
+4,Network Segmentation,Network
+5,VPN,Network
+6,Zero Trust Network Access,Network
+7,DDoS Protection,Network
+8,Secure Gateway,Network
+9,Network Access Control,Network
+10,Traffic Filtering,Network
+11,Proxy Server,Network
+12,Secure DNS,Network
+13,Port Blocking,Network
+14,Network Monitoring,Network
+15,Rate Limiting,Network
+16,Load Balancer Security,Network
+17,Web Application Firewall,Application
+18,Input Validation,Application
+19,Secure Coding Practices,Application
+20,API Security Gateway,Application
+21,Code Review,Application
+22,Static Code Analysis,Application
+23,Dynamic Application Testing,Application
+24,Dependency Scanning,Application
+25,Session Management,Application
+26,Authentication Hardening,Application
+27,Error Handling Security,Application
+28,Security Patching,Application
+29,Container Security,Application
+30,Runtime Protection,Application
+31,Application Logging,Application
+32,Access Token Protection,Application
+33,Multi-Factor Authentication,Authentication
+34,Single Sign-On,Authentication
+35,Password Policy Enforcement,Authentication
+36,Biometric Authentication,Authentication
+37,Account Lockout Policy,Authentication
+38,Privileged Access Management,Authentication
+39,Identity Federation,Authentication
+40,Credential Rotation,Authentication
+41,Adaptive Authentication,Authentication
+42,OAuth Security,Authentication
+43,SAML Authentication,Authentication
+44,Session Timeout,Authentication
+45,CAPTCHA,Authentication
+46,Identity Monitoring,Authentication
+47,Device Authentication,Authentication
+48,Risk-Based Authentication,Authentication
+49,Data Encryption,Data
+50,Data Masking,Data
+51,Access Control,Data
+52,Data Loss Prevention,Data
+53,Backup and Recovery,Data
+54,Database Activity Monitoring,Data
+55,Tokenization,Data
+56,Secure Key Management,Data
+57,File Integrity Monitoring,Data
+58,Data Classification,Data
+59,Secure Storage,Data
+60,Data Anonymization,Data
+61,Retention Policy,Data
+62,Data Auditing,Data
+63,Encryption at Rest,Data
+64,Encryption in Transit,Data
+65,Antivirus,Endpoint
+66,Endpoint Detection and Response,Endpoint
+67,Patch Management,Endpoint
+68,Device Control,Endpoint
+69,Disk Encryption,Endpoint
+70,Mobile Device Management,Endpoint
+71,Host Intrusion Detection,Endpoint
+72,Application Whitelisting,Endpoint
+73,USB Blocking,Endpoint
+74,Endpoint Firewall,Endpoint
+75,Behavior Monitoring,Endpoint
+76,Remote Wipe,Endpoint
+77,OS Hardening,Endpoint
+78,Threat Hunting,Endpoint
+79,Endpoint Logging,Endpoint
+80,Exploit Protection,Endpoint
