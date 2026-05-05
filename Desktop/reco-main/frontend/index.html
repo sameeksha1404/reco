@@ -6,7 +6,7 @@
     <title>SecuraForge | Threat Recommendation Engine</title>
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&f[]=cabinet-grotesk@500,700,800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=combined-dashboard" />
   </head>
   <body>
     <a class="skip-link" href="#selection-view">Skip to content</a>
@@ -160,6 +160,7 @@
             <div class="result-score-circle"><div class="score-inner"><span class="score-label">Risk Score</span><strong id="risk-score" class="big-score">0.00</strong></div></div>
             <div class="result-meta"><div class="risk-level-badge" id="risk-level">LOW</div><div class="response-priority" id="response-priority">Routine Monitoring</div></div>
           </div>
+          <div id="analysis-dashboard" class="analysis-dashboard"></div>
           <div class="result-summary"><h3>Analysis Summary</h3><div id="analysis-summary" class="summary-content"></div></div>
           <div class="result-actions">
             <button id="restart-btn" class="btn btn-primary btn-lg"><i class="fas fa-redo"></i> New Analysis</button>
@@ -183,6 +184,6 @@
       </div>
     </main>
 
-    <script src="app.js"></script>
+    <script src="app.js?v=combined-dashboard"></script>
   </body>
 </html>
