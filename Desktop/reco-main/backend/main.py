@@ -1,9 +1,15 @@
 from csv import DictReader
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from sqlalchemy import select
+from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from db import Base, engine, get_session
+from models import SavedThreatControlSelection
 
 from recommender import HybridRecommendationEngine
 
@@ -19,6 +25,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+async def create_database_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
 
 # ── Pydantic models ───────────────────────────────────────────────────────────
@@ -74,6 +86,27 @@ class FinalRiskRequest(BaseModel):
 
 
 class FinalRiskResponse(BaseModel):
+    risk_score: float
+    risk_level: str
+
+
+class SaveSelectionRequest(BaseModel):
+    threat_id: int = Field(..., gt=0)
+    control_id: int = Field(..., gt=0)
+    replace_existing: bool = False
+
+
+class SaveSelectionResponse(BaseModel):
+    status: str
+    replaced: bool
+    duplicate: bool
+    message: str
+    threat_id: int
+    threat_name: str
+    control_id: int
+    control_name: str
+    impact: float
+    probability: float
     risk_score: float
     risk_level: str
 
@@ -281,6 +314,24 @@ def get_impact_text(control_name: str, score: float) -> str:
     return descriptions[bucket]
 
 
+def risk_level_from_score(risk_score: float) -> str:
+    if risk_score < 0.33:
+        return "Low"
+    if risk_score < 0.66:
+        return "Medium"
+    return "High"
+
+
+def get_pair_impact(threat_id: int, control_id: int) -> float:
+    pair = (threat_id, control_id)
+    if pair in PAIR_IMPACT:
+        return PAIR_IMPACT[pair]
+
+    recs = ENGINE.recommend(threat_id, top_k=len(CONTROL_BY_ID))
+    rec_map = {r["control_id"]: r["impact"] for r in recs}
+    return float(rec_map.get(control_id, 0.5))
+
+
 # ── Routes ────────────────────────────────────────────────────────────────────
 
 @app.get("/health")
@@ -404,6 +455,109 @@ async def get_control_coverage(control_id: int):
     }
 
 
+@app.get("/saved-selection/check/{threat_id}/{control_id}")
+async def check_saved_selection(
+    threat_id: int,
+    control_id: int,
+    session: AsyncSession = Depends(get_session),
+):
+    result = await session.execute(
+        select(SavedThreatControlSelection).where(
+            SavedThreatControlSelection.threat_id == threat_id,
+            SavedThreatControlSelection.control_id == control_id,
+        )
+    )
+    existing = result.scalar_one_or_none()
+    return {
+        "exists": existing is not None,
+        "message": "This threat-control pair already exists in the database." if existing else "New pair.",
+    }
+
+
+@app.post("/saved-selection", response_model=SaveSelectionResponse)
+async def save_selected_pair(
+    payload: SaveSelectionRequest,
+    session: AsyncSession = Depends(get_session),
+):
+    threat = THREAT_BY_ID.get(payload.threat_id)
+    if not threat:
+        raise HTTPException(status_code=404, detail=f"Threat {payload.threat_id} not found")
+
+    control = CONTROL_BY_ID.get(payload.control_id)
+    if not control:
+        raise HTTPException(status_code=404, detail=f"Control {payload.control_id} not found")
+
+    existing_result = await session.execute(
+        select(SavedThreatControlSelection).where(
+            SavedThreatControlSelection.threat_id == payload.threat_id,
+            SavedThreatControlSelection.control_id == payload.control_id,
+        )
+    )
+    existing = existing_result.scalar_one_or_none()
+
+    if existing and not payload.replace_existing:
+        raise HTTPException(
+            status_code=409,
+            detail="This threat-control pair was already added. Tick 'Replace if already saved' to update it.",
+        )
+
+    impact = round(float(get_pair_impact(payload.threat_id, payload.control_id)), 4)
+    probability = round(float(threat["weight"]), 4)
+    risk_score = round(probability * impact, 4)
+    risk_level = risk_level_from_score(risk_score)
+
+    values = {
+        "threat_id": payload.threat_id,
+        "threat_name": threat["name"],
+        "control_id": payload.control_id,
+        "control_name": control["name"],
+        "impact": impact,
+        "probability": probability,
+        "risk_score": risk_score,
+        "risk_level": risk_level,
+    }
+
+    stmt = insert(SavedThreatControlSelection).values(**values)
+    stmt = stmt.on_conflict_do_update(
+        index_elements=["threat_id", "control_id"],
+        set_=values,
+    )
+    await session.execute(stmt)
+    await session.commit()
+
+    replaced = existing is not None
+    return {
+        "status": "saved",
+        "replaced": replaced,
+        "duplicate": replaced,
+        "message": "Existing pair replaced in database." if replaced else "New pair saved in database.",
+        **values,
+    }
+
+
+@app.get("/saved-selections")
+async def list_saved_selections(session: AsyncSession = Depends(get_session)):
+    result = await session.execute(
+        select(SavedThreatControlSelection).order_by(SavedThreatControlSelection.updated_at.desc())
+    )
+    rows = result.scalars().all()
+    return [
+        {
+            "id": row.id,
+            "threat_id": row.threat_id,
+            "threat_name": row.threat_name,
+            "control_id": row.control_id,
+            "control_name": row.control_name,
+            "impact": float(row.impact),
+            "probability": float(row.probability),
+            "risk_score": float(row.risk_score),
+            "risk_level": row.risk_level,
+            "updated_at": row.updated_at.isoformat() if row.updated_at else None,
+        }
+        for row in rows
+    ]
+
+
 @app.post("/final-risk", response_model=FinalRiskResponse)
 async def final_risk(payload: FinalRiskRequest):
     if not payload.selections:
@@ -420,15 +574,7 @@ async def final_risk(payload: FinalRiskRequest):
         if item.control_id not in CONTROL_BY_ID:
             raise HTTPException(status_code=404, detail=f"Control {item.control_id} not found")
 
-        # Use known pair impact if available, else fall back to engine estimate
-        pair = (item.threat_id, item.control_id)
-        if pair in PAIR_IMPACT:
-            impact_val = PAIR_IMPACT[pair]
-        else:
-            # Engine provides an estimated impact for novel pairs
-            recs = ENGINE.recommend(item.threat_id, top_k=len(CONTROL_BY_ID))
-            rec_map = {r["control_id"]: r["impact"] for r in recs}
-            impact_val = rec_map.get(item.control_id, 0.5)
+        impact_val = get_pair_impact(item.threat_id, item.control_id)
 
         probabilities.append(threat["weight"])
         impacts.append(impact_val)
@@ -437,11 +583,4 @@ async def final_risk(payload: FinalRiskRequest):
     impact = sum(impacts) / len(impacts)
     risk_score = round(probability * impact, 4)
 
-    if risk_score < 0.33:
-        level = "Low"
-    elif risk_score < 0.66:
-        level = "Medium"
-    else:
-        level = "High"
-
-    return FinalRiskResponse(risk_score=risk_score, risk_level=level)
+    return FinalRiskResponse(risk_score=risk_score, risk_level=risk_level_from_score(risk_score))

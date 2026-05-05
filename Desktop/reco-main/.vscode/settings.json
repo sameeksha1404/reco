@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:reco-main}/backend/backend.db",
+            "name": "Threat Engine SQLite"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

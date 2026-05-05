@@ -56,8 +56,18 @@ async function fetchJSON(path, options = {}) {
     headers: { "Content-Type": "application/json" },
     ...options,
   });
-  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-  return res.json();
+
+  const contentType = res.headers.get("content-type") || "";
+  const data = contentType.includes("application/json") ? await res.json() : await res.text();
+
+  if (!res.ok) {
+    const message = typeof data === "object" ? (data.detail || data.message || `Request failed: ${res.status}`) : (data || `Request failed: ${res.status}`);
+    const error = new Error(message);
+    error.status = res.status;
+    error.payload = data;
+    throw error;
+  }
+  return data;
 }
 
 function showToast(message, type = "info") {
@@ -247,14 +257,43 @@ function renderControls(threat, controls) {
   });
 }
 
-async function selectControl(threatId, controlId, controlName = "", effectiveness = 0) {
-  state.selections.push({ threat_id: threatId, control_id: controlId, control_name: controlName, effectiveness: Number(effectiveness || 0) });
-  state.currentIndex++;
-  
-  if (state.currentIndex < state.selectedThreats.length) {
-    renderStep();
-  } else {
-    finishAnalysis();
+async function selectControl(threatId, controlId, controlName = "", effectiveness = 0, replaceExisting = false) {
+  try {
+    const saveResult = await fetchJSON("/saved-selection", {
+      method: "POST",
+      body: JSON.stringify({
+        threat_id: Number(threatId),
+        control_id: Number(controlId),
+        replace_existing: Boolean(replaceExisting),
+      }),
+    });
+
+    state.selections.push({
+      threat_id: Number(threatId),
+      control_id: Number(controlId),
+      control_name: controlName || saveResult.control_name,
+      effectiveness: Number(effectiveness || 0),
+      impact: Number(saveResult.impact || 0),
+      probability: Number(saveResult.probability || 0),
+      risk_score: Number(saveResult.risk_score || 0),
+      risk_level: saveResult.risk_level,
+      saved_status: saveResult.replaced ? "replaced" : "saved",
+    });
+
+    showToast(saveResult.replaced ? "Already added earlier — replaced in database." : "Threat-control pair saved to database.", saveResult.replaced ? "warning" : "success");
+
+    state.currentIndex++;
+    if (state.currentIndex < state.selectedThreats.length) {
+      renderStep();
+    } else {
+      finishAnalysis();
+    }
+  } catch (err) {
+    if (err.status === 409) {
+      showToast("This threat-control pair is already added. Tick the replace checkbox to update it.", "warning");
+    } else {
+      showToast(err.message || "Could not save selected pair to database.", "error");
+    }
   }
 }
 
@@ -952,21 +991,43 @@ window.bulkSelectCategoryVisible = (category, shouldSelect) => {
 function renderControls(threat, controls) {
   controlListEl.innerHTML = `
     <div class="compact-control-panel">
-      <div class="compact-control-note">
-        <i class="fa-solid fa-circle-info"></i>
-        Choose one recommended control. The list is compact so the user does not need to scroll through big cards.
+      <div class="compact-control-note save-note">
+        <i class="fa-solid fa-database"></i>
+        Choose one recommended control. The selected threat, control, impact, probability and risk score will be saved in the database.
       </div>
-      ${controls.map((c, idx) => `
-        <button class="compact-control-row" data-threat-id="${Number(threat.id)}" data-control-id="${Number(c.id)}" data-control-name="${escapeHTML(c.name)}" data-effectiveness="${Number(c.effectiveness || 0)}" onclick="selectControl(Number(this.dataset.threatId), Number(this.dataset.controlId), this.dataset.controlName, Number(this.dataset.effectiveness))">
-          <span class="control-rank-pill">#${idx + 1}</span>
-          <span class="row-main">
-            <strong>${escapeHTML(c.name)}</strong>
-            <small>${escapeHTML(c.impact_text || 'Standard mitigation control for this threat pattern.')}</small>
-          </span>
-          <span class="control-score">${Number(c.effectiveness).toFixed(2)}</span>
-          <i class="fa-solid fa-arrow-right"></i>
-        </button>
-      `).join("")}
+      ${controls.map((c, idx) => {
+        const probability = Number(threat.weight || 0);
+        const impact = Number(c.impact || 0);
+        const pairRisk = probability * impact;
+        return `
+          <div class="compact-control-row save-control-row" data-threat-id="${Number(threat.id)}" data-control-id="${Number(c.id)}">
+            <span class="control-rank-pill">#${idx + 1}</span>
+            <span class="row-main">
+              <strong>${escapeHTML(c.name)}</strong>
+              <small>${escapeHTML(c.impact_text || 'Standard mitigation control for this threat pattern.')}</small>
+              <span class="pair-metrics">
+                Probability: ${probability.toFixed(2)} · Impact: ${impact.toFixed(2)} · Risk: ${pairRisk.toFixed(3)}
+              </span>
+              <label class="replace-existing-check" onclick="event.stopPropagation()">
+                <input type="checkbox" id="replace-${Number(threat.id)}-${Number(c.id)}" />
+                Replace if already saved
+              </label>
+            </span>
+            <span class="control-score">${Number(c.effectiveness).toFixed(2)}</span>
+            <button
+              class="mini-save-btn"
+              data-threat-id="${Number(threat.id)}"
+              data-control-id="${Number(c.id)}"
+              data-control-name="${escapeHTML(c.name)}"
+              data-effectiveness="${Number(c.effectiveness || 0)}"
+              data-replace-id="replace-${Number(threat.id)}-${Number(c.id)}"
+              onclick="selectControl(Number(this.dataset.threatId), Number(this.dataset.controlId), this.dataset.controlName, Number(this.dataset.effectiveness), document.getElementById(this.dataset.replaceId).checked)"
+            >
+              Save & Apply <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        `;
+      }).join("")}
     </div>
   `;
 }

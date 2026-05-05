@@ -22,6 +22,12 @@ Final Score — Weighted Hybrid Blend
     This means the engine blends collaborative filtering, content-based
     similarity, and a supervised ML score learned from known threat-control
     mappings, while still leveraging original domain base scores.
+
+
+Collaborative Filtering (CF) → good when historical data exists
+Content-Based (CB) → good for new/unseen threats
+ML Model → learns complex patterns
+Base Score → domain knowledge (real-world mapping)
 """
 
 import math

@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, Integer, Numeric, String
+from sqlalchemy import DateTime, ForeignKey, Integer, Numeric, String, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column
 from pydantic import BaseModel, Field
 
@@ -26,14 +26,30 @@ class ThreatControlMap(Base):
     __tablename__ = "threat_control_map"
 
     threat_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("threats.id", on_delete="CASCADE"), primary_key=True
+        Integer, ForeignKey("threats.id", ondelete="CASCADE"), primary_key=True
     )
     control_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("controls.id", on_delete="CASCADE"), primary_key=True
+        Integer, ForeignKey("controls.id", ondelete="CASCADE"), primary_key=True
     )
     mapping_impact: Mapped[float] = mapped_column(Numeric(4, 2), nullable=False)
     effectiveness: Mapped[float] = mapped_column(Numeric(4, 2), nullable=False)
     control_name: Mapped[str] = mapped_column(String(150), nullable=False)
+
+
+class SavedThreatControlSelection(Base):
+    __tablename__ = "saved_threat_control_selections"
+    __table_args__ = (UniqueConstraint("threat_id", "control_id", name="uq_saved_threat_control_pair"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    threat_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    threat_name: Mapped[str] = mapped_column(String(150), nullable=False)
+    control_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    control_name: Mapped[str] = mapped_column(String(150), nullable=False)
+    impact: Mapped[float] = mapped_column(Numeric(6, 4), nullable=False)
+    probability: Mapped[float] = mapped_column(Numeric(6, 4), nullable=False)
+    risk_score: Mapped[float] = mapped_column(Numeric(6, 4), nullable=False)
+    risk_level: Mapped[str] = mapped_column(String(20), nullable=False)
+    updated_at: Mapped[str] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
 
 class ThreatOut(BaseModel):
